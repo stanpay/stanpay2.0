@@ -23,6 +23,17 @@ dist-ssr
 *.sln
 *.sw?
 .env
+*.md
 
 # Scripts and utilities
 scripts/
+
+# Supabase
+supabase/.temp/
+supabase/migrations/
+supabase/functions/
+supabase/config.toml
+supabase/templates/
+
+# Development tools (배포에 필요 없음)
+eslint.config.js
