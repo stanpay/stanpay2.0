@@ -27,7 +27,13 @@ export async function loadKakaoMaps(appKey?: string): Promise<typeof window & { 
         console.log('✅ [Kakao SDK] 스크립트 로드 완료');
         resolve();
       };
-      script.onerror = () => reject(new Error('Failed to load Kakao Maps SDK'));
+      script.onerror = (e) => {
+        console.error('❌ [Kakao SDK] 스크립트 로드 실패');
+        console.error('Script URL:', script.src);
+        console.error('Error event:', e);
+        console.error('App Key 설정 여부:', !!appKey);
+        reject(new Error('Failed to load Kakao Maps SDK - 가능한 원인: 1) 도메인 미등록 2) 잘못된 API 키 3) 네트워크 차단'));
+      };
       document.head.appendChild(script);
     });
   } else {
