@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Location from "./pages/Location";
@@ -30,19 +31,19 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/location" element={<Location />} />
-          <Route path="/marketplace" element={<Marketplace />} />
-          <Route path="/sell" element={<Sell />} />
-          <Route path="/payment/:storeId" element={<Payment />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/my-gifticons" element={<MyGifticons />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/points-membership" element={<PointsMembership />} />
-          <Route path="/payment-methods" element={<PaymentMethods />} />
+          <Route path="/main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
+          <Route path="/location" element={<ProtectedRoute><Location /></ProtectedRoute>} />
+          <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
+          <Route path="/sell" element={<ProtectedRoute><Sell /></ProtectedRoute>} />
+          <Route path="/payment/:storeId" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
+          <Route path="/mypage" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
+          <Route path="/my-gifticons" element={<ProtectedRoute><MyGifticons /></ProtectedRoute>} />
+          <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
+          <Route path="/points-membership" element={<ProtectedRoute><PointsMembership /></ProtectedRoute>} />
+          <Route path="/payment-methods" element={<ProtectedRoute><PaymentMethods /></ProtectedRoute>} />
           <Route path="/callback-auth" element={<CallbackAuth />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/payment-fail" element={<PaymentFail />} />
+          <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+          <Route path="/payment-fail" element={<ProtectedRoute><PaymentFail /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
