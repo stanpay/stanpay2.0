@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 import { ChevronRight, Gift, History, Settings, LogOut, Plus, Package } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import { Link, useNavigate } from "react-router-dom";
@@ -186,24 +187,27 @@ const MyPage = () => {
         </Card>
 
         {/* Menu Items */}
-        <div className="space-y-2 mb-6">
-          {menuItems.map((item) => {
+        <Card className="mb-6 rounded-xl border-border/50 overflow-hidden">
+          {menuItems.map((item, index) => {
             const Icon = item.icon;
             return (
-              <Link key={item.path} to={item.path}>
-                <Card className="p-4 flex items-center justify-between hover:bg-accent transition-colors cursor-pointer rounded-xl border-border/50">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-primary" />
+              <div key={item.path}>
+                <Link to={item.path}>
+                  <div className="p-4 flex items-center justify-between hover:bg-accent transition-colors cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="font-medium">{item.label}</span>
                     </div>
-                    <span className="font-medium">{item.label}</span>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
                   </div>
-                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                </Card>
-              </Link>
+                </Link>
+                {index < menuItems.length - 1 && <Separator />}
+              </div>
             );
           })}
-        </div>
+        </Card>
 
         {/* Admin Menu Items */}
         {isAdmin && (

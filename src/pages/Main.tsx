@@ -1118,7 +1118,7 @@ const Main = () => {
         <div className="max-w-md mx-auto px-4 py-4">
           <Button 
             variant="outline" 
-            className="w-full justify-between h-12 rounded-xl border-border/50 hover:border-primary/50 transition-colors"
+            className="group w-full justify-between h-12 rounded-xl border-border/50 hover:border-primary/50 transition-colors"
             disabled={isLoadingLocation || !isLoggedIn}
             onClick={() => {
               if (isLoggedIn) {
@@ -1135,7 +1135,7 @@ const Main = () => {
               {isLoadingLocation ? (
                 <Loader2 className="w-5 h-5 mr-2 text-primary animate-spin" />
               ) : (
-                <MapPin className="w-5 h-5 mr-2 text-primary" />
+                <MapPin className="w-5 h-5 mr-2 text-primary group-hover:text-white transition-colors" />
               )}
               <span className="font-medium">
                 {isLoadingLocation ? "위치 확인 중..." : `현재 위치: ${currentLocation}`}
