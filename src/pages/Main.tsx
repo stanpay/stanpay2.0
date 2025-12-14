@@ -153,66 +153,7 @@ const Main = () => {
     const checkAuthAndInitLocation = async () => {
       console.log("🔐 [인증 확인] 시작");
       
-      // 매직링크로 리다이렉트된 경우 처리 (PKCE flow)
-      // 매직링크가 /main?token_hash=...로 리다이렉트되는 경우를 처리
-      const urlParams = new URLSearchParams(window.location.search);
-      const tokenHash = urlParams.get('token_hash');
-      const typeFromQuery = urlParams.get('type');
-      
-      if (tokenHash) {
-        console.log("🔗 [매직링크 처리] token_hash 발견:", tokenHash.substring(0, 20) + "...");
-        try {
-          const {
-            data: { session, user },
-            error,
-          } = await supabase.auth.verifyOtp({
-            token_hash: tokenHash,
-            type: (typeFromQuery || 'email') as 'email' | 'magiclink',
-          });
-
-          if (error) {
-            console.error("❌ [매직링크 인증 오류]:", error);
-            toast({
-              title: "인증 실패",
-              description: error.message || "인증 링크가 유효하지 않습니다.",
-              variant: "destructive",
-            });
-            // URL 정리 후 로그인 페이지로 이동
-            window.history.replaceState({}, document.title, "/main");
-            navigate("/");
-            return;
-          } 
-          
-          if (session && user) {
-            console.log("✅ [매직링크 인증 성공]");
-            toast({
-              title: "로그인 성공",
-              description: "환영합니다!",
-            });
-            // URL 정리 (query string 제거)
-            window.history.replaceState({}, document.title, "/main");
-            // 인증 완료 후 계속 진행 (return 없이 계속 실행)
-            setIsLoggedIn(true);
-            // 여기서 return 하지 않고 계속 진행하여 위치 초기화 수행
-          } else {
-            console.error("❌ [매직링크] 세션 생성 실패");
-            throw new Error("세션을 생성할 수 없습니다.");
-          }
-        } catch (error: any) {
-          console.error("❌ [매직링크 처리 오류]:", error);
-          toast({
-            title: "인증 실패",
-            description: error.message || "인증 링크 처리 중 오류가 발생했습니다.",
-            variant: "destructive",
-          });
-          // URL 정리
-          window.history.replaceState({}, document.title, "/main");
-          navigate("/");
-          return;
-        }
-      }
-      
-      // 로그인 상태 확인 (매직링크 처리 후에도 실행됨)
+      // 로그인 상태 확인
       const { data: { session } } = await supabase.auth.getSession();
       const loggedIn = !!session;
       setIsLoggedIn(loggedIn);
